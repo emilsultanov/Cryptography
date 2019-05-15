@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link rel="stylesheet" href="bootstrap.min.css" />
+    <title>Hello, world!</title>
+
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <div class="container my-5">
+        <div class="row justify-content-center mb-4">
+            <div class="col-8 border border-info py-3 rounded">
+                <div class="list-group" id="list-tab" role="tablist">
+                    <a class="list-group-item list-group-item-action active mb-2 border border-primary rounded" id="list-home-list" data-toggle="list"
+                        href="#list-home" role="tab" aria-controls="home">Şifrələmə</a>
+                    <a class="list-group-item list-group-item-action border border-primary rounded" id="list-profile-list" data-toggle="list"
+                        href="#list-profile" role="tab" aria-controls="profile">Deşifrələmə</a>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-8 border border-primary rounded">
+                <div class="tab-content" id="nav-tabContent">
+                    <div class="tab-pane fade show active" id="list-home" role="tabpanel"
+                        aria-labelledby="list-home-list">
+                        <h3 class="my-4">Yuli-Sezar usulu ilə mətnin şifrələnməsi.</h3>
+                        <form>
+                            <input class="form-control form-control-lg my-4 border border-warning " type="text"
+                                placeholder="Şifrələnəcək mətni daxil edin..." id="currentText" />
+
+                            <button type="button" class="btn btn-danger   px-3" id="shifrele">Şifrələ</button>
+                            <input class="btn btn-warning px-3" type="reset" value="Reset">
+
+                            <input class="form-control form-control-lg my-4   border border-info" type="text"
+                                placeholder="Şifrələnmiş mətn..." disabled id="newText" />
+                        </form>
+                    </div>
+                    <div class="tab-pane fade" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">
+                        <h3 class="my-4">Yuli-Sezar usulu ilə mətnin Deşifrələnməsi.</h3>
+                        <form>
+                            <input class="form-control form-control-lg my-4  border border-warning" type="text"
+                                placeholder="Deşifrələnəcək mətni daxil edin..." id="currentText2" />
+                            <button type="button" class="btn btn-danger  px-3" id="deShifrele">Deşifrələ</button>
+                            <input class="btn btn-primary" type="reset" value="Reset">
+
+                            <input class="form-control form-control-lg my-4 border border-info" type="text"
+                                placeholder="Deşifrələnmiş mətn..." disabled id="newText2" />
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="jquery-3.3.1.slim.min.js"></script>
+    <script src="popper.min.js"></script>
+    <script src="bootstrap.min.js"></script>
+
+    <script>
+
+        $(function () {
+            let alfabet;
+            alfabet = ['a', 'b', 'c', 'd', 'e', 'ə', 'f', 'g', 'ğ', 'h', 'i','ı', 'j', 'k', 'l', 'm', 'n', 'o', 'ö', 'p', 'q', 'r', 's', 'ş', 't', 'u', 'v', 'x', 'y', 'z'];
+
+            // Daxil edilən mətnin şifrələnməsi üçün lazım olan kod hissəsi
+            $('#shifrele').on('click', function () {
+                let currentTextValue, newText;
+                currentTextValue = $('input#currentText').val().split(" ").join("").toLowerCase().split('');
+
+                newText = $('input#newText:disabled').val();
+
+                $.each(currentTextValue, function (index, value) {
+
+                    let letter = jQuery.inArray(value, alfabet);
+
+                    if (letter === 29) {
+                        newText += alfabet[2];
+                        $('input#newText:disabled').val(newText);
+                    } else if (letter === 28) {
+                        newText += alfabet[1];
+                        $('input#newText:disabled').val(newText);
+                    } else if (letter == 27) {
+                        newText += alfabet[0];
+                        $('input#newText:disabled').val(newText);
+                    } else {
+                        newText += alfabet[letter + 3];
+                        $('input#newText:disabled').val(newText);
+                    }
+                });
+            });
+
+
+            // Daxil edilən mətnin deşifrələnməsi üçün lazım olan kod hissəsi
+            $('#deShifrele').on('click', function () {
+                let currentText2, newText2, currentTextValue2;
+                currentTextValue2 = $('input#currentText2').val().split(" ").join("").toLowerCase().split('');
+
+                newText2 = $('input#newText2:disabled').val();
+
+                $.each(currentTextValue2, function (index, value) {
+
+                    let letter = jQuery.inArray(value, alfabet);
+
+                    if (letter === 2) {
+                        newText2 += alfabet[29];
+                        $('input#newText2:disabled').val(newText2);
+                    } else if (letter === 1) {
+                        newText2 += alfabet[28];
+                        $('input#newText2:disabled').val(newText2);
+                    } else if (letter == 0) {
+                        newText2 += alfabet[27];
+                        $('input#newText2:disabled').val(newText2);
+                    } else {
+                        newText2 += alfabet[letter - 3];
+                        $('input#newText2:disabled').val(newText2);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
